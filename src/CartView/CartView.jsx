@@ -11,7 +11,7 @@ function CartView({ cart, setCurrentView }) {
     }
 
     function changeViewToOrderView() {
-        setCurrentView("order");
+        setCurrentView("confirmation");
     }
 
     const uniqueItems = cart.filter(
