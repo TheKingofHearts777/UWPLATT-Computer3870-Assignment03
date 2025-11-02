@@ -7,8 +7,6 @@ import BrowseViewHeader from './BrowseViewHeader.jsx';
 
 function BrowseView({ catalog, setCatalog, cart, setCart, setCurrentView }) {
     const [filteredCatalog, setFilteredCatalog] = useState([]);
-    const [cartTotal, setCartTotal] = useState(0);
-
     const [searchInput, setSearchInput] = useState("");
 
     useEffect(() => {
@@ -26,20 +24,6 @@ function BrowseView({ catalog, setCatalog, cart, setCart, setCurrentView }) {
         };
         fetchData();
     }, []);
-
-    useEffect(() => {
-        const total = () => {
-            let totalAmount = 0;
-            
-            for (let i = 0; i < cart.length; i++) {
-                totalAmount += cart[i].price;
-            }
-
-            setCartTotal(totalAmount);
-        };
-
-        total();
-    }, [cart]);
 
     const addToCart = (element) => {
         setCart([...cart, element]);

@@ -24,7 +24,7 @@ export default function BrowseViewHeader({ onSearchUpdate, searchCatalog, change
                 </Form>
 
 
-                <Button variant="primary" onClick={cartCount > 0 ? changeView : null}>
+                <Button disabled={cartCount <= 0} variant={cartCount > 0 ? "primary" : "secondary"} onClick={cartCount > 0 ? changeView : null}>
                     Checkout {cartCount > 0 && `(${cartCount})`}
                 </Button>
             </Container>

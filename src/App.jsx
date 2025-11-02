@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css'
 
 import BrowseView from './BrowseView/BrowseView.jsx';
@@ -6,18 +6,42 @@ import CartView from './CartView/CartView.jsx';
 import ConfirmationView from './ConfirmationView/ConfirmationView.jsx';
 
 function App() {
-  const [currentView, setCurrentView] = useState("browse");
-  const [catalog, setCatalog] = useState([]);
-  const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+    const [currentView, setCurrentView] = useState("browse");
+    const [catalog, setCatalog] = useState([]);
+    const [cart, setCart] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [uniqueItems, setUniqueItems] = useState([]);
+    const [itemCounts, setItemCounts] = useState({});
 
-  return (
-    <>
-      {currentView == "browse" && <BrowseView catalog={catalog} setCatalog={setCatalog} cart={cart} setCart={setCart} setCurrentView={setCurrentView} />}
-      {currentView == "cart" && <CartView cart={cart} setCurrentView={setCurrentView} totalPrice={totalPrice} setTotalPrice={setTotalPrice} />}
-      {currentView == "confirmation" && <ConfirmationView setCurrentView={setCurrentView} cart={cart} setCart={setCart} totalPrice={totalPrice} setTotalPrice={setTotalPrice} />}
-    </>
-  )
+    useEffect(() => {
+        const uniques = cart.filter((item, index, self) => self.findIndex(i => i.id === item.id) === index);
+
+        setUniqueItems(uniques);
+
+        const newCounts = {};
+        let newTotal = 0;
+
+        uniques.forEach(item => {
+            const itemCount = cart.filter(i => i.id === item.id).length;
+            newCounts[item.id] = itemCount;
+            newTotal += item.price * itemCount;
+        });
+
+        setItemCounts(newCounts);
+        setTotalPrice(newTotal);
+    }, [cart]);
+
+    return (
+        <>
+            {currentView == "browse" && <BrowseView catalog={catalog} setCatalog={setCatalog} cart={cart} setCart={setCart} setCurrentView={setCurrentView} />}
+            {currentView == "cart" && (
+                <CartView setCurrentView={setCurrentView} uniqueItems={uniqueItems} itemCounts={itemCounts} totalPrice={totalPrice} />
+            )}
+            {currentView == "confirmation" && (
+                <ConfirmationView setCurrentView={setCurrentView} cart={cart} uniqueItems={uniqueItems} itemCounts={itemCounts} totalPrice={totalPrice} />
+            )}
+        </>
+    )
 }
 
 export default App
