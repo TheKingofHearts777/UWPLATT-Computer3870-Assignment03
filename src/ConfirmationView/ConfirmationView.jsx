@@ -58,7 +58,7 @@ function ConfirmationView({ cart, totalPrice }) {
                     </div>
                     <div>
                         <h4 className="mt-4">Total Items: {cart.length}</h4>
-                        <h4 className="mt-4">Total Price: ${totalPrice}</h4>
+                        <h4 className="mt-4">Total Price: ${parseFloat(totalPrice).toFixed(2)}</h4>
                     </div>
                     <hr style={{ border: "none", borderTop: "3px dashed #000000FF" }} />
                     <div>
