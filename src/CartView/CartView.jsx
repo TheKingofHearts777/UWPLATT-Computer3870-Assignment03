@@ -16,17 +16,16 @@ function CartView({ cart, setCurrentView, totalPrice, setTotalPrice }) {
         (item, index, self) => self.findIndex(i => i.id === item.id) === index
     );
 
+    let newTotal = 0;
     const countsMap = {};
+
     uniqueItems.forEach(item => {
-        countsMap[item.id] = cart.filter(i => i.id === item.id).length;
-        let newTotal = 0;
-        uniqueItems.forEach(item => {
-            const count = cart.filter(i => i.id === item.id).length;
-            countsMap[item.id] = count;
-            newTotal += item.price * count;
-        });
-        setTotalPrice(newTotal);
+        const itemCount = cart.filter(i => i.id === item.id).length;;
+        countsMap[item.id] = itemCount;
+        newTotal += item.price * itemCount;
     });
+
+    setTotalPrice(newTotal);
 
     const tableEntries = uniqueItems.map((item) => {
         return (
