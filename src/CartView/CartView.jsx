@@ -2,9 +2,7 @@ import { Button, Navbar, Table } from "react-bootstrap";
 import CartViewHeader from "./CartViewHeader.jsx";
 import PaymentInfo from "./PaymentInfo.jsx";
 
-function CartView({ cart, setCurrentView }) {
-
-    let totalPrice = 0;
+function CartView({ cart, setCurrentView, totalPrice, setTotalPrice }) {
 
     function returnToBrowseView() {
         setCurrentView("browse");
@@ -21,7 +19,13 @@ function CartView({ cart, setCurrentView }) {
     const countsMap = {};
     uniqueItems.forEach(item => {
         countsMap[item.id] = cart.filter(i => i.id === item.id).length;
-        totalPrice += item.price * countsMap[item.id];
+        let newTotal = 0;
+        uniqueItems.forEach(item => {
+            const count = cart.filter(i => i.id === item.id).length;
+            countsMap[item.id] = count;
+            newTotal += item.price * count;
+        });
+        setTotalPrice(newTotal);
     });
 
     const tableEntries = uniqueItems.map((item) => {
@@ -59,9 +63,9 @@ function CartView({ cart, setCurrentView }) {
 
     return (
         <div>
-            <CartViewHeader changeView={returnToBrowseView}/>
+            <CartViewHeader changeView={returnToBrowseView} />
             {cartTable}
-            <PaymentInfo/>
+            <PaymentInfo />
             <Button className="btn" variant="success" onClick={changeViewToOrderView}>Order</Button>
         </div>
     )
