@@ -20,7 +20,7 @@ function CartView({ cart, setCurrentView, totalPrice, setTotalPrice }) {
     const countsMap = {};
 
     uniqueItems.forEach(item => {
-        const itemCount = cart.filter(i => i.id === item.id).length;;
+        const itemCount = cart.filter(i => i.id === item.id).length;
         countsMap[item.id] = itemCount;
         newTotal += item.price * itemCount;
     });
