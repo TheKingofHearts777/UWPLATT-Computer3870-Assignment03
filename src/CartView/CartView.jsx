@@ -2,7 +2,7 @@ import { Button, Navbar, Table } from "react-bootstrap";
 import CartViewHeader from "./CartViewHeader.jsx";
 import PaymentInfo from "./PaymentInfo.jsx";
 
-function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice }) {
+function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice, setOrderInfoField }) {
     function returnToBrowseView() {
         setCurrentView("browse");
     }
@@ -55,7 +55,7 @@ function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice }) {
         <div>
             <CartViewHeader changeView={returnToBrowseView} />
             {cartTable}
-            <PaymentInfo />
+            <PaymentInfo setOrderInfoField={setOrderInfoField} />
             <Button className="btn" variant="success" onClick={changeViewToOrderView}>Order</Button>
         </div>
     )
