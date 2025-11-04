@@ -17,7 +17,7 @@ function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo
     function getCartInfo() {
         if (cart && cart.length > 0) {
             const format = (n) => `$${Number(n || 0).toFixed(2)}`;
-            const orderNumber = orderInfo?.orderNumber || `#${Date.now().toString().slice(-8)}`;
+            const orderNumber = `#${Date.now().toString().slice(-8)}`;
             const now = new Date().toLocaleString();
 
             const shippingCost = 5.99; // Random values I added in
