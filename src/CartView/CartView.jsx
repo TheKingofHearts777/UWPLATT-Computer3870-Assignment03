@@ -55,8 +55,7 @@ function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice, setOrde
         <div>
             <CartViewHeader changeView={returnToBrowseView} />
             {cartTable}
-            <PaymentInfo setOrderInfoField={setOrderInfoField} />
-            <Button className="btn" variant="success" onClick={changeViewToOrderView}>Order</Button>
+            <PaymentInfo setOrderInfoField={setOrderInfoField} changeViewToOrderView={changeViewToOrderView}/>
         </div>
     )
 }

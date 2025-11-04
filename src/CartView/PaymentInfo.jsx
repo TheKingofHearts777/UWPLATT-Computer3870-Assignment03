@@ -1,4 +1,5 @@
-import { Col, Form, Row } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
 const US_STATES = [
     { code: "AL", name: "Alabama" },
@@ -53,17 +54,31 @@ const US_STATES = [
     { code: "WY", name: "Wyoming" }
 ];
 
-export default function PaymentInfo({ setOrderInfoField }) {
+export default function PaymentInfo({ setOrderInfoField, changeViewToOrderView }) {
+    const [validated, setValidated] = useState(false);
+
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        changeViewToOrderView();
+        setValidated(true);
+    };
+
     return (
         <div className="container">
             <strong>Payment Information</strong>
 
-            <Form>
+            <Form validated={validated} onSubmit={handleSubmit}>
                 <Row className="d-flex">
                     <Col>
                         <Form.Group className="mb-3" controlId="name">
                             <Form.Label>Full Name</Form.Label>
                             <Form.Control
+                                required
                                 type="text"
                                 onChange={(e) => setOrderInfoField("fullName", e.target.value.trim())}
                             />
@@ -74,6 +89,7 @@ export default function PaymentInfo({ setOrderInfoField }) {
                         <Form.Group className="mb-3" controlId="email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
+                                required
                                 type="email"
                                 onChange={(e) => setOrderInfoField("email", e.target.value.trim().toLowerCase())}
                             />
@@ -84,8 +100,11 @@ export default function PaymentInfo({ setOrderInfoField }) {
                         <Form.Group className="mb-3" controlId="card">
                             <Form.Label>Card</Form.Label>
                             <Form.Control
+                                required
                                 placeholder="XXXX-XXXX-XXXX-XXXX"
-                                onChange={(e) => setOrderInfoField("card", e.target.value.trim())}
+                                onChange={(e) => {
+                                    setOrderInfoField("card", e.target.value.trim().replaceAll("-", ""))
+                                }}
                             />
                         </Form.Group>
                     </Col>
@@ -94,6 +113,7 @@ export default function PaymentInfo({ setOrderInfoField }) {
                 <Form.Group className="mb-3" controlId="address">
                     <Form.Label>Address</Form.Label>
                     <Form.Control
+                        required
                         placeholder="1234 Main St"
                         onChange={(e) => setOrderInfoField("address", e.target.value.trim())}
                     />
@@ -106,12 +126,13 @@ export default function PaymentInfo({ setOrderInfoField }) {
                         onChange={(e) => setOrderInfoField("address2", e.target.value.trim())}
                     />
                 </Form.Group>
-                
+
                 <Row className="d-flex">
                     <Col>
                         <Form.Group className="mb-3" controlId="city">
                             <Form.Label>City</Form.Label>
                             <Form.Control
+                                required
                                 onChange={(e) => setOrderInfoField("city", e.target.value.trim())}
                             />
                         </Form.Group>
@@ -120,7 +141,7 @@ export default function PaymentInfo({ setOrderInfoField }) {
                     <Col>
                         <Form.Group className="mb-3" controlId="state">
                             <Form.Label>State</Form.Label>
-                            <Form.Select onChange={(e) => setOrderInfoField("state", e.target.value)}>
+                            <Form.Select required onChange={(e) => setOrderInfoField("state", e.target.value)}>
                                 <option value="">Select state</option>
                                 {US_STATES.map((s) => (
                                     <option key={s.code} value={s.code}>
@@ -135,6 +156,7 @@ export default function PaymentInfo({ setOrderInfoField }) {
                         <Form.Group className="mb-3" controlId="zip">
                             <Form.Label>ZIP</Form.Label>
                             <Form.Control
+                                required
                                 type="text"
                                 inputMode="numeric"
                                 maxLength={5}
@@ -152,9 +174,11 @@ export default function PaymentInfo({ setOrderInfoField }) {
                                     setOrderInfoField("zip", value)
                                 }}
                             />
-                        </Form.Group>   
+                        </Form.Group>
                     </Col>
                 </Row>
+
+                <Button className="btn" variant="success" type="submit">Order</Button>
             </Form>
         </div>
     )
