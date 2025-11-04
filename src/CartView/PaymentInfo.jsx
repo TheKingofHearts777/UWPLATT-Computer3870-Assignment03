@@ -1,4 +1,4 @@
-import { Form } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 
 const US_STATES = [
     { code: "AL", name: "Alabama" },
@@ -58,33 +58,41 @@ export default function PaymentInfo({ setOrderInfoField }) {
         <div className="container">
             <strong>Payment Information</strong>
 
-            <Form className="container d-flex me-auto gap-2">
-                <Form.Group className="mb-3" controlId="name">
-                    <Form.Label>Full Name</Form.Label>
-                    <Form.Control
-                        type="text"
-                        onChange={(e) => setOrderInfoField("fullName", e.target.value.trim())}
-                    />
-                </Form.Group>
+            <Form>
+                <Row className="d-flex">
+                    <Col>
+                        <Form.Group className="mb-3" controlId="name">
+                            <Form.Label>Full Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                onChange={(e) => setOrderInfoField("fullName", e.target.value.trim())}
+                            />
+                        </Form.Group>
+                    </Col>
 
-                <Form.Group className="mb-3" controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        type="email"
-                        onChange={(e) => setOrderInfoField("email", e.target.value.trim().toLowerCase())}
-                    />
-                </Form.Group>
+                    <Col>
+                        <Form.Group className="mb-3" controlId="email">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                                type="email"
+                                onChange={(e) => setOrderInfoField("email", e.target.value.trim().toLowerCase())}
+                            />
+                        </Form.Group>
+                    </Col>
+
+                    <Col>
+                        <Form.Group className="mb-3" controlId="card">
+                            <Form.Label>Card</Form.Label>
+                            <Form.Control
+                                placeholder="XXXX-XXXX-XXXX-XXXX"
+                                onChange={(e) => setOrderInfoField("card", e.target.value.trim())}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
             </Form>
 
             <Form>
-                <Form.Group className="mb-3" controlId="card">
-                    <Form.Label>Card</Form.Label>
-                    <Form.Control
-                        placeholder="XXXX-XXXX-XXXX-XXXX"
-                        onChange={(e) => setOrderInfoField("card", e.target.value.trim())}
-                    />
-                </Form.Group>
-
                 <Form.Group className="mb-3" controlId="address">
                     <Form.Label>Address</Form.Label>
                     <Form.Control
@@ -102,47 +110,55 @@ export default function PaymentInfo({ setOrderInfoField }) {
                 </Form.Group>
             </Form>
 
-            <Form className="container d-flex me-auto">
-                <Form.Group className="mb-3" controlId="city">
-                    <Form.Label>City</Form.Label>
-                    <Form.Control
-                        onChange={(e) => setOrderInfoField("city", e.target.value.trim())}
-                    />
-                </Form.Group>
+            <Form>
+                <Row className="d-flex">
+                    <Col>
+                        <Form.Group className="mb-3" controlId="city">
+                            <Form.Label>City</Form.Label>
+                            <Form.Control
+                                onChange={(e) => setOrderInfoField("city", e.target.value.trim())}
+                            />
+                        </Form.Group>
+                    </Col>
 
-                <Form.Group className="mb-3" controlId="state">
-                    <Form.Label>State</Form.Label>
-                    <Form.Select onChange={(e) => setOrderInfoField("state", e.target.value)}>
-                        <option value="">Select state</option>
-                        {US_STATES.map((s) => (
-                            <option key={s.code} value={s.code}>
-                                {s.code} - {s.name}
-                            </option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+                    <Col>
+                        <Form.Group className="mb-3" controlId="state">
+                            <Form.Label>State</Form.Label>
+                            <Form.Select onChange={(e) => setOrderInfoField("state", e.target.value)}>
+                                <option value="">Select state</option>
+                                {US_STATES.map((s) => (
+                                    <option key={s.code} value={s.code}>
+                                        {s.code} - {s.name}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
 
-                <Form.Group className="mb-3" controlId="zip">
-                    <Form.Label>ZIP</Form.Label>
-                    <Form.Control
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={5}
-                        onKeyDown={(e) => {
-                            // Allow: digits, backspace, delete, arrows, tab
-                            if (
-                                !/[0-9]/.test(e.key) &&
-                                !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)
-                            ) {
-                                e.preventDefault();
-                            }
-                        }}
-                        onChange={(e) => {
-                            const value = e.target.value.replace(/\D/g, "").slice(0, 5);
-                            setOrderInfoField("zip", value)
-                        }}
-                    />
-                </Form.Group>
+                    <Col>
+                        <Form.Group className="mb-3" controlId="zip">
+                            <Form.Label>ZIP</Form.Label>
+                            <Form.Control
+                                type="text"
+                                inputMode="numeric"
+                                maxLength={5}
+                                onKeyDown={(e) => {
+                                    // Allow: digits, backspace, delete, arrows, tab
+                                    if (
+                                        !/[0-9]/.test(e.key) &&
+                                        !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)
+                                    ) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                onChange={(e) => {
+                                    const value = e.target.value.replace(/\D/g, "").slice(0, 5);
+                                    setOrderInfoField("zip", value)
+                                }}
+                            />
+                        </Form.Group>   
+                    </Col>
+                </Row>
             </Form>
         </div>
     )
