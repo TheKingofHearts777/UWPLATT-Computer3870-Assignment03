@@ -2,7 +2,7 @@ import { Button, Navbar, Table } from "react-bootstrap";
 import CartViewHeader from "./CartViewHeader.jsx";
 import PaymentInfo from "./PaymentInfo.jsx";
 
-function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice, setOrderInfoField }) {
+function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice, setOrderInfoField, shippingCost, taxRate }) {
     function returnToBrowseView() {
         setCurrentView("browse");
     }
@@ -10,6 +10,10 @@ function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice, setOrde
     function changeViewToOrderView() {
         setCurrentView("confirmation");
     }
+
+    const format = (n) => `$${Number(n || 0).toFixed(2)}`;
+
+    const tax = totalPrice * taxRate;
 
     const tableEntries = uniqueItems.map((item) => {
         return (
@@ -41,13 +45,33 @@ function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice, setOrde
             </thead>
             <tbody>
                 {tableEntries}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>${parseFloat(totalPrice).toFixed(2)}</td>
-                </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td />
+                    <td />
+                    <td className="text-end"><strong>Subtotal</strong></td>
+                    <td className="text-end"><strong>{format(totalPrice)}</strong></td>
+                </tr>
+                <tr>
+                    <td />
+                    <td />
+                    <td className="text-end"><strong>Tax</strong></td>
+                    <td className="text-end"><strong>{format(tax)}</strong></td>
+                </tr>
+                <tr>
+                    <td />
+                    <td />
+                    <td className="text-end"><strong>Shipping</strong></td>
+                    <td className="text-end"><strong>{format(shippingCost)}</strong></td>
+                </tr>
+                <tr>
+                    <td />
+                    <td />
+                    <td className="text-end"><strong>Total</strong></td>
+                    <td className="text-end"><strong>{format(totalPrice + shippingCost + tax)}</strong></td>
+                </tr>
+            </tfoot>
         </Table>
     );
 
@@ -55,7 +79,7 @@ function CartView({ setCurrentView, uniqueItems, itemCounts, totalPrice, setOrde
         <div>
             <CartViewHeader changeView={returnToBrowseView} />
             {cartTable}
-            <PaymentInfo setOrderInfoField={setOrderInfoField} changeViewToOrderView={changeViewToOrderView}/>
+            <PaymentInfo setOrderInfoField={setOrderInfoField} changeViewToOrderView={changeViewToOrderView} />
         </div>
     )
 }

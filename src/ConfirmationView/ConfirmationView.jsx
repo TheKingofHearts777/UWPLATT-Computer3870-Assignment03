@@ -11,7 +11,7 @@ function OrderInfo({ orderInfo }) {
     );
 }
 
-function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo, returnFromConfirmToBrowse }) {
+function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo, returnFromConfirmToBrowse, shippingCost, taxRate}) {
     // Generated using "Format this how a typical receipt would look" prompt
 
     function getCartInfo() {
@@ -19,9 +19,6 @@ function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo
             const format = (n) => `$${Number(n || 0).toFixed(2)}`;
             const orderNumber = `#${Date.now().toString().slice(-8)}`;
             const now = new Date().toLocaleString();
-
-            const shippingCost = 5.99; // Random values I added in
-            const taxRate = 0.07; // Slightly less than current USA rate
 
             const rows = uniqueItems.map(item => {
                 const qty = itemCounts[item.id] || 0;
@@ -37,13 +34,7 @@ function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo
                 );
             });
 
-            const computedTotal = uniqueItems.reduce((sum, item) => {
-                const qty = itemCounts[item.id] || 0;
-                return sum + (Number(item.price) || 0) * qty;
-            }, 0);
-            const total = Number(totalPrice) || computedTotal;
-
-            const tax = total * taxRate;
+            const tax = totalPrice * taxRate;
 
             return (
                 <div className="container mt-3 p-3 border rounded bg-white">
@@ -94,7 +85,7 @@ function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo
                                 <td />
                                 <td />
                                 <td className="text-end"><strong>Total</strong></td>
-                                <td className="text-end"><strong>{format(total + shippingCost + tax)}</strong></td>
+                                <td className="text-end"><strong>{format(totalPrice + shippingCost + tax)}</strong></td>
                             </tr>
                         </tfoot>
                     </table>

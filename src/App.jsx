@@ -12,6 +12,8 @@ function App() {
     const [totalPrice, setTotalPrice] = useState(0);
     const [uniqueItems, setUniqueItems] = useState([]);
     const [itemCounts, setItemCounts] = useState({});
+    const shippingCost = 5.99;
+    const taxRate = 0.07;
 
     const defaultOrderInfo = {
         fullName: "",
@@ -63,10 +65,10 @@ function App() {
         <>
             {currentView == "browse" && <BrowseView catalog={catalog} setCatalog={setCatalog} cart={cart} setCart={setCart} setCurrentView={setCurrentView} />}
             {currentView == "cart" && (
-                <CartView setCurrentView={setCurrentView} uniqueItems={uniqueItems} itemCounts={itemCounts} totalPrice={totalPrice} setOrderInfoField={setOrderInfoField} />
+                <CartView setCurrentView={setCurrentView} uniqueItems={uniqueItems} itemCounts={itemCounts} totalPrice={totalPrice} setOrderInfoField={setOrderInfoField} shippingCost={shippingCost} taxRate={taxRate} />
             )}
             {currentView == "confirmation" && (
-                <ConfirmationView setCurrentView={setCurrentView} cart={cart} uniqueItems={uniqueItems} itemCounts={itemCounts} totalPrice={totalPrice} orderInfo={orderInfo} returnFromConfirmToBrowse={returnFromConfirmToBrowse}/>
+                <ConfirmationView setCurrentView={setCurrentView} cart={cart} uniqueItems={uniqueItems} itemCounts={itemCounts} totalPrice={totalPrice} orderInfo={orderInfo} returnFromConfirmToBrowse={returnFromConfirmToBrowse} shippingCost={shippingCost} taxRate={taxRate} />
             )}
         </>
     )
