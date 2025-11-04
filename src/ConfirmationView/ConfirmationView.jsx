@@ -19,8 +19,9 @@ function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo
             const format = (n) => `$${Number(n || 0).toFixed(2)}`;
             const orderNumber = orderInfo?.orderNumber || `#${Date.now().toString().slice(-8)}`;
             const now = new Date().toLocaleString();
-            const shippingCost = 5.99;
-            const taxRate = 0.07;
+
+            const shippingCost = 5.99; // Random values I added in
+            const taxRate = 0.07; // Slightly less than current USA rate
 
             const rows = uniqueItems.map(item => {
                 const qty = itemCounts[item.id] || 0;
