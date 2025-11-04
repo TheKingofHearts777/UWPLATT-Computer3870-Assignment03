@@ -102,8 +102,15 @@ export default function PaymentInfo({ setOrderInfoField, changeViewToOrderView }
                             <Form.Control
                                 required
                                 placeholder="XXXX-XXXX-XXXX-XXXX"
+                                maxLength={19}
                                 onChange={(e) => {
-                                    setOrderInfoField("card", e.target.value.trim().replaceAll("-", ""))
+                                    let input = e.target.value.trim();
+
+                                    const digits = input.replace("-", "");
+
+                                    e.target.value = input.replace(/(\d{4})(?=\d)/g, '$1-');
+
+                                    setOrderInfoField("card", digits);
                                 }}
                             />
                         </Form.Group>
