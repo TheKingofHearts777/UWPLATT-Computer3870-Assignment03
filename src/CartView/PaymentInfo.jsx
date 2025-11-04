@@ -90,9 +90,7 @@ export default function PaymentInfo({ setOrderInfoField }) {
                         </Form.Group>
                     </Col>
                 </Row>
-            </Form>
 
-            <Form>
                 <Form.Group className="mb-3" controlId="address">
                     <Form.Label>Address</Form.Label>
                     <Form.Control
@@ -108,9 +106,7 @@ export default function PaymentInfo({ setOrderInfoField }) {
                         onChange={(e) => setOrderInfoField("address2", e.target.value.trim())}
                     />
                 </Form.Group>
-            </Form>
-
-            <Form>
+                
                 <Row className="d-flex">
                     <Col>
                         <Form.Group className="mb-3" controlId="city">
