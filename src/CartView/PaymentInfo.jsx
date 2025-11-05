@@ -57,6 +57,7 @@ const US_STATES = [
 export default function PaymentInfo({ setOrderInfoField, changeViewToOrderView }) {
     const [validated, setValidated] = useState(false);
     const [cardInput, setCardInput] = useState("");
+    const [zipInput, setZipInput]   = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -176,7 +177,11 @@ export default function PaymentInfo({ setOrderInfoField, changeViewToOrderView }
                                 required
                                 type="text"
                                 inputMode="numeric"
+                                minLength={5}
                                 maxLength={5}
+                                value={zipInput}
+                                isValid={zipInput.length === 5}
+                                pattern="[0-9]{5}"
                                 onKeyDown={(e) => {
                                     // Allow: digits, backspace, delete, arrows, tab
                                     if (
@@ -188,9 +193,13 @@ export default function PaymentInfo({ setOrderInfoField, changeViewToOrderView }
                                 }}
                                 onChange={(e) => {
                                     const value = e.target.value.replace(/\D/g, "").slice(0, 5);
+                                    setZipInput(value);
                                     setOrderInfoField("zip", value)
                                 }}
                             />
+                            <Form.Control.Feedback type="invalid">
+                                Please enter a 5-digit ZIP code.
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                 </Row>
