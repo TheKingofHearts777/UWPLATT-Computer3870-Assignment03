@@ -99,7 +99,7 @@ function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo
                         </div>
                         <div className="col-md-6 text-md-end">
                             <h5 className="mb-2">Payment</h5>
-                            {/* I developed this method to mask credit card numbers for security */}
+                            {/* Dylan developed this method to mask credit card numbers for security */}
                             <p className="mb-1">
                                 Card: {"X".repeat(4)}-{"X".repeat(4)}-{"X".repeat(4)}-{(orderInfo?.card || "").slice(12)}
                             </p>
