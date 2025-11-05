@@ -65,9 +65,9 @@ function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo
                         <tfoot>
                             <tr>
                                 <td />
-                                <td className="text-end"><strong>{cart.length}</strong></td>
+                                <td />
                                 <td className="text-end"><strong>Subtotal</strong></td>
-                                <td className="text-end"><strong>{format(computedTotal)}</strong></td>
+                                <td className="text-end"><strong>{format(totalPrice)}</strong></td>
                             </tr>
                             <tr>
                                 <td />
@@ -100,7 +100,9 @@ function ConfirmationView({ cart, uniqueItems, itemCounts, totalPrice, orderInfo
                         <div className="col-md-6 text-md-end">
                             <h5 className="mb-2">Payment</h5>
                             {/* I developed this method to mask credit card numbers for security */}
-                            <p className="mb-1">Card: {"X".repeat(4)}-{"X".repeat(4)}-{"X".repeat(4)}-{(orderInfo?.card || "").slice(12)}</p>
+                            <p className="mb-1">
+                                Card: {"X".repeat(4)}-{"X".repeat(4)}-{"X".repeat(4)}-{(orderInfo?.card || "").slice(12)}
+                            </p>
                         </div>
                     </div>
                 </div>

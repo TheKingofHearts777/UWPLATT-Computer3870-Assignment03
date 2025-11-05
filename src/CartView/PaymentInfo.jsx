@@ -56,12 +56,17 @@ const US_STATES = [
 
 export default function PaymentInfo({ setOrderInfoField, changeViewToOrderView }) {
     const [validated, setValidated] = useState(false);
+    const [cardInput, setCardInput] = useState("");
 
     const handleSubmit = (event) => {
+        event.preventDefault();
+
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
+
+        if (!form.checkValidity()) {
             event.stopPropagation();
+            setValidated(true);
+            return;
         }
 
         changeViewToOrderView();
@@ -72,7 +77,7 @@ export default function PaymentInfo({ setOrderInfoField, changeViewToOrderView }
         <div className="container">
             <strong>Payment Information</strong>
 
-            <Form validated={validated} onSubmit={handleSubmit}>
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="d-flex">
                     <Col>
                         <Form.Group className="mb-3" controlId="name">
@@ -103,16 +108,21 @@ export default function PaymentInfo({ setOrderInfoField, changeViewToOrderView }
                                 required
                                 placeholder="XXXX-XXXX-XXXX-XXXX"
                                 maxLength={19}
+                                value={cardInput}
+                                pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
                                 onChange={(e) => {
-                                    let input = e.target.value.trim();
+                                    let raw = e.target.value.trim().replace(/[^0-9]/g, "");
+                                    raw = raw.slice(0, 16);
 
-                                    const digits = input.replace("-", "");
+                                    const formatted = raw.replace(/(\d{4})(?=\d)/g, "$1-");
 
-                                    e.target.value = input.replace(/(\d{4})(?=\d)/g, '$1-');
-
-                                    setOrderInfoField("card", digits);
+                                    setCardInput(formatted);
+                                    setOrderInfoField("card", raw);
                                 }}
                             />
+                            <Form.Control.Feedback type="invalid">
+                                Please enter a valid 16-digit card number.
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                 </Row>
